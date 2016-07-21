@@ -2,6 +2,7 @@ package com.juhezi.salaryquery.query;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,8 @@ import com.juhezi.salaryquery.R;
  * Created by qiaoyunrui on 16-7-20.
  */
 public class QueryActivity extends AppCompatActivity {
+
+    private QueryFragment mFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,5 +30,16 @@ public class QueryActivity extends AppCompatActivity {
         ab.setHomeAsUpIndicator(R.drawable.toolbar_ic); //修改返回键*/
         ab.setIcon(R.drawable.toolbar_ic);
         ab.setTitle(Config.TOOLBAR_TITLE);
+
+        mFragment = (QueryFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.ll_root);
+
+        if (null == mFragment) {
+            mFragment = new QueryFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.ll_root, mFragment);
+            transaction.commit();
+        }
+
     }
 }

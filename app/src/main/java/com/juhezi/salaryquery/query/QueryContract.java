@@ -14,8 +14,7 @@ public interface QueryContract {
 
     }
 
-    interface View extends BaseView<LoginContract.Presenter> {
-
+    interface View extends BaseView<QueryContract.Presenter> {
 
 
     }
