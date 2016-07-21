@@ -1,0 +1,38 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId rootProject.ext.applicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled rootProject.ext.minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    apt rootProject.ext.libDaggerCompiler
+    provided rootProject.ext.libJavaxAnnotation
+    compile rootProject.ext.libDagger
+    compile rootProject.ext.libSupportAppcomponent
+    compile rootProject.ext.libSupportDesign
+    compile rootProject.ext.libSupportRecyclerView
+    compile rootProject.ext.libSupportV4
+    compile rootProject.ext.libGson
+    compile rootProject.ext.libVolley
+    compile rootProject.ext.libInit
+    compile rootProject.ext.libJuWidget
+
+}
