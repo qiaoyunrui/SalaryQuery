@@ -18,8 +18,6 @@ public interface QueryContract {
 
         void refresh(); //刷新数据
 
-        void getDataFromCache(); //从缓存中获取数据
-
     }
 
     interface View extends BaseView<QueryContract.Presenter> {

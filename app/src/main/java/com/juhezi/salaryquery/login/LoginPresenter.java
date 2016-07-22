@@ -11,12 +11,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.juhezi.salaryquery.Config;
 import com.juhezi.salaryquery.data.LoginData;
 import com.juhezi.salaryquery.data.params.LoginParam;
-
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -71,13 +68,16 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void start() {
-        if (isOutDate()) {  //登录过期
-            mLoginView.setUsername(getUsername());
-            mLoginView.unenableButton();
-            mLoginView.hideProgressBar();
-        } else {
-            mLoginView.turn2QueryActivity();
+
+        if (getTheLogState()) {
+            if (!isOutDate()) {  //登录过期
+                mLoginView.turn2QueryActivity();
+                return;
+            }
         }
+        mLoginView.setUsername(getUsername());
+        mLoginView.unenableButton();
+        mLoginView.hideProgressBar();
     }
 
     /**
@@ -86,6 +86,7 @@ public class LoginPresenter implements LoginContract.Presenter {
      * @param username
      * @param passwd
      */
+
     private void queryRemoteData(String username, String passwd) {
         LoginParam param =
                 new LoginParam(Config.LOGIN_METHOD_NAME, Config.COMPANY_NAME, username, passwd);
@@ -182,5 +183,16 @@ public class LoginPresenter implements LoginContract.Presenter {
         } else {    //登录失败
             loginUnsuccessfully();
         }
+    }
+
+    /**
+     * 获取登录状态
+     */
+    private boolean getTheLogState() {
+        if (null == mSharedPreferences) {
+            mSharedPreferences = mContext.getSharedPreferences(Config.SHARE_PREFERENCE,
+                    Context.MODE_PRIVATE);
+        }
+        return mSharedPreferences.getBoolean(Config.USER_STATE_TAG, false);
     }
 }

@@ -85,7 +85,7 @@ public class QueryFragment extends Fragment implements QueryContract.View {
     @Override
     public void onResume() {
         super.onResume();
-//        mPresenter.start();
+        mPresenter.start();
     }
 
     @Override
@@ -166,6 +166,9 @@ public class QueryFragment extends Fragment implements QueryContract.View {
     @Override
     public void updateRecyclerView(List<SalaryDetail> dataList) {
         adapter.setList(dataList);
-        mRecyclerView.notify();
+        synchronized (mRecyclerView) {
+            mRecyclerView.notify();
+        }
+
     }
 }

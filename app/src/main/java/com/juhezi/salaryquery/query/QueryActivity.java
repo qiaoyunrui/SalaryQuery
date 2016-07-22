@@ -10,8 +10,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.juhezi.salaryquery.ApplicationModule;
 import com.juhezi.salaryquery.Config;
 import com.juhezi.salaryquery.R;
+
+import javax.inject.Inject;
 
 /**
  * Created by qiaoyunrui on 16-7-20.
@@ -19,7 +22,9 @@ import com.juhezi.salaryquery.R;
 public class QueryActivity extends AppCompatActivity {
 
     private QueryFragment mFragment;
-    private QueryPresenter mPresenter;
+
+    @Inject
+    QueryPresenter mPresenter;
 
     private static final String TAG = "QueryActivity";
 
@@ -47,6 +52,12 @@ public class QueryActivity extends AppCompatActivity {
             transaction.commit();
         }
 
+        DaggerQueryComponent.builder()
+                .queryPresenterModule(new QueryPresenterModule(mFragment))
+                .applicationModule(new ApplicationModule(QueryActivity.this))
+                .build()
+                .inject(this);
+
     }
 
     @Override
@@ -59,6 +70,7 @@ public class QueryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item_query_toolbar_logout) { //退出登录
+            mPresenter.logOut();
             Log.i(TAG, "Logout");
         }
         return super.onOptionsItemSelected(item);

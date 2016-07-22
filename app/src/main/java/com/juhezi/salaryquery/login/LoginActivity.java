@@ -41,6 +41,5 @@ public class LoginActivity extends AppCompatActivity {
                 .applicationModule(new ApplicationModule(LoginActivity.this))
                 .build()
                 .inject(this);
-
     }
 }
