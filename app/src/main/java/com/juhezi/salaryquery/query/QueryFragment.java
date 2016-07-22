@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class QueryFragment extends Fragment implements QueryContract.View {
 
     private View rootView;
     private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
     private FloatingActionButton mFabRefresh;   //用于刷新
 
     private QueryContract.Presenter mPresenter;
@@ -39,7 +41,7 @@ public class QueryFragment extends Fragment implements QueryContract.View {
         rootView = inflater.inflate(R.layout.query_frag, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_list);
         mFabRefresh = (FloatingActionButton) rootView.findViewById(R.id.fab_refresh);
-
+        configRecyclerView();
         initEvent();
         setAnimForFab();
 
@@ -53,8 +55,6 @@ public class QueryFragment extends Fragment implements QueryContract.View {
 
 
     private void initEvent() {
-        List<SalaryDetail> list = new ArrayList<>();
-        list.add(new SalaryDetail("姓名", "张全蛋"));
         mFabRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +92,21 @@ public class QueryFragment extends Fragment implements QueryContract.View {
     }
 
     public void playFabAnim() {
-        animator.start();
+        if (!animator.isRunning()) {
+            animator.start();
+        }
+
+    }
+
+    /**
+     * 配置RecyclerView
+     */
+    public void configRecyclerView() {
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);    //设置排列方式为垂直
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+        mRecyclerView.setHasFixedSize(true);
+
     }
 }
