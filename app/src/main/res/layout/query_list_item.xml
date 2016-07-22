@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/colorPrimary"
         android:text="姓名"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -25,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/colorAccent"
         android:text="李狗蛋"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 

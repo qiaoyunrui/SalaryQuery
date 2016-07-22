@@ -44,7 +44,6 @@ public class QueryFragment extends Fragment implements QueryContract.View {
         configRecyclerView();
         initEvent();
         setAnimForFab();
-
         return rootView;
     }
 
@@ -107,6 +106,11 @@ public class QueryFragment extends Fragment implements QueryContract.View {
         mRecyclerView.setLayoutManager(mLayoutManager);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mRecyclerView.setHasFixedSize(true);
-
+        List<SalaryDetail> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add(new SalaryDetail("姓名" + i, "张全蛋" + i));
+        }
+        QueryAdapter adapter = new QueryAdapter(list);
+        mRecyclerView.setAdapter(adapter);
     }
 }
