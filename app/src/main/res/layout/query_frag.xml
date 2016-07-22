@@ -24,4 +24,19 @@
         android:src="@drawable/ic_update"
         app:fabSize="normal" />
 
+    <com.juhezi.juprogressbar.View.JuProgressbar
+        android:id="@+id/jp_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:color1="@color/blue"
+        app:color2="@color/green"
+        app:color3="@color/red"
+        app:color4="@color/yellow"
+        app:colorNum="4"
+        app:loadingText="@string/load_text">
+
+    </com.juhezi.juprogressbar.View.JuProgressbar>
+
 </RelativeLayout>

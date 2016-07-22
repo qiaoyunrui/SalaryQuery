@@ -8,4 +8,19 @@ public class QueryPresenter implements QueryContract.Presenter {
     public void start() {
 
     }
+
+    @Override
+    public void logOut() {
+
+    }
+
+    @Override
+    public void refresh() {
+
+    }
+
+    @Override
+    public void getDataFromCache() {
+
+    }
 }

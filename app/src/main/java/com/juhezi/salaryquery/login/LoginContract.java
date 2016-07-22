@@ -12,6 +12,7 @@ public interface LoginContract {
      * 一切与逻辑有关的都要放在这里
      */
     interface Presenter extends BasePresenter {
+
         void loginUnsuccessfully();
 
         void loginSuccessfully();
