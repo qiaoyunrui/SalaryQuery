@@ -1,14 +1,20 @@
 package com.juhezi.salaryquery.query;
 
 import android.animation.ObjectAnimator;
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Binder;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +24,9 @@ import com.juhezi.juprogressbar.View.JuProgressbar;
 import com.juhezi.salaryquery.Config;
 import com.juhezi.salaryquery.R;
 import com.juhezi.salaryquery.data.LoadDataService;
+import com.juhezi.salaryquery.data.SalaryData;
 import com.juhezi.salaryquery.data.SalaryDetail;
+import com.juhezi.salaryquery.data.source.DataSource;
 import com.juhezi.salaryquery.login.LoginActivity;
 
 import java.util.ArrayList;
@@ -38,11 +46,13 @@ public class QueryFragment extends Fragment implements QueryContract.View {
     private JuProgressbar mJpProgressbar;
     private AlertDialog.Builder mBuilder;
     private QueryAdapter adapter;
+    private ServiceConnection mConnection;
 
     private QueryContract.Presenter mPresenter;
 
     private List<SalaryDetail> dataList = new ArrayList<>();
     private Intent intent;
+    private LoadDataService.LoadBinder mBinder;
 
     private ObjectAnimator animator;
 
@@ -73,6 +83,17 @@ public class QueryFragment extends Fragment implements QueryContract.View {
             @Override
             public void onClick(View view) {
                 playFabAnim();
+                mBinder.refresh(new DataSource.LoadDataCallback() {
+                    @Override
+                    public void onDataLoaded(SalaryData salaryData) {
+                        Log.i(TAG, "OK");
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+                        Log.i(TAG, "NONE");
+                    }
+                }, "12");
             }
         });
     }
@@ -80,8 +101,19 @@ public class QueryFragment extends Fragment implements QueryContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                mBinder = (LoadDataService.LoadBinder) iBinder;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+                mConnection = null;
+            }
+        };
         Intent intent = new Intent(getContext(), LoadDataService.class);
-        getContext().startService(intent);
+        getContext().bindService(intent, mConnection, Service.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -92,6 +124,7 @@ public class QueryFragment extends Fragment implements QueryContract.View {
 
     @Override
     public void onDestroy() {
+        getContext().unbindService(mConnection);
         mPresenter = null;
         super.onDestroy();
 

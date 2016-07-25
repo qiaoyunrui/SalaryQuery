@@ -1,6 +1,7 @@
 package com.juhezi.salaryquery.data.source.remote;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -16,6 +17,8 @@ import com.juhezi.salaryquery.util.JSONUtil;
  * Created by qiaoyunrui on 16-7-25.
  */
 public class RemoteDataSource implements DataSource {
+
+
     private static RemoteDataSource INSTANCE = null;
 
     private RequestQueue mQueue;
@@ -49,6 +52,8 @@ public class RemoteDataSource implements DataSource {
                 callback.onDataNotAvailable();
             }
         });
+        mQueue.add(request);
+        mQueue.start();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.juhezi.salaryquery.data.source;
 
+import android.util.Log;
+
 import com.juhezi.salaryquery.data.SalaryData;
 
 /**
@@ -36,7 +38,8 @@ public class Source implements DataSource {
 
     @Override
     public void getData(LoadDataCallback callback, String id) {
-        getDataFromLocal(callback, id);
+
+        getDataFromCache(callback, id);
     }
 
     @Override

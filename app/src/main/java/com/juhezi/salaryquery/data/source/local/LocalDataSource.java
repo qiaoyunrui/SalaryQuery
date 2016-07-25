@@ -1,5 +1,7 @@
 package com.juhezi.salaryquery.data.source.local;
 
+import android.content.Context;
+
 import com.juhezi.salaryquery.data.SalaryData;
 import com.juhezi.salaryquery.data.source.DataSource;
 
@@ -8,15 +10,19 @@ import com.juhezi.salaryquery.data.source.DataSource;
  */
 public class LocalDataSource implements DataSource {
     private static LocalDataSource INSTANCE = null;
+    private LocalDbHelper mLocalDbHelper;
+    private Context mContext;
 
-    public static LocalDataSource getInstance() {
+    public static LocalDataSource getInstance(Context context) {
         if (null == INSTANCE) {
-            INSTANCE = new LocalDataSource();
+            INSTANCE = new LocalDataSource(context);
         }
         return INSTANCE;
     }
 
-    private LocalDataSource() {
+    private LocalDataSource(Context context) {
+        this.mContext = context;
+        mLocalDbHelper = new LocalDbHelper(context);
     }
 
     @Override
