@@ -1,5 +1,7 @@
 package com.juhezi.salaryquery.data.source;
 
+import com.juhezi.salaryquery.data.SalaryData;
+
 /**
  * Created by qiaoyunrui on 16-7-25.
  */
@@ -29,11 +31,45 @@ public class Source implements DataSource {
 
     @Override
     public void refreshData(LoadDataCallback callback, String id) {
-
+        mRemoteDataSource.refreshData(callback, id);
     }
 
     @Override
     public void getData(LoadDataCallback callback, String id) {
+        getDataFromLocal(callback, id);
+    }
 
+    @Override
+    public void saveData(String id, SalaryData data) {
+        mCacheDataSource.saveData(id, data);
+        mLocalDataSource.saveData(id, data);
+    }
+
+    private void getDataFromCache(final LoadDataCallback callback, final String id) {
+        mCacheDataSource.getData(new LoadDataCallback() {
+            @Override
+            public void onDataLoaded(SalaryData salaryData) {   //从缓存中加载数据成功
+                callback.onDataLoaded(salaryData);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                getDataFromLocal(callback, id);
+            }
+        }, id);
+    }
+
+    private void getDataFromLocal(final LoadDataCallback callback, final String id) {
+        mLocalDataSource.getData(new LoadDataCallback() {
+            @Override
+            public void onDataLoaded(SalaryData salaryData) {
+                callback.onDataLoaded(salaryData);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                mRemoteDataSource.getData(callback, id);
+            }
+        }, id);
     }
 }
