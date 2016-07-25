@@ -154,6 +154,13 @@ public class LoginPresenter implements LoginContract.Presenter {
         }
     }
 
+    @Override
+    public void stopLoading() {
+        if (null != mQueue) {
+            mQueue.stop();
+        }
+    }
+
     //缓存用户名，用于显示输入框
     public void saveUsername(String username) {
         if (null == mSharedPreferences) {

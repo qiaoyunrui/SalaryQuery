@@ -20,6 +20,8 @@ public interface LoginContract {
         void login(String username, String passwd);
 
         public boolean isOutDate();
+
+        void stopLoading(); //停止加载数据，防止内存泄露
     }
 
     interface View extends BaseView<Presenter> {

@@ -25,6 +25,8 @@
         <activity
             android:name=".query.QueryActivity"
             android:theme="@style/NoActionBar"></activity>
+
+        <service android:name=".data.LoadDataService"></service>
     </application>
 
 </manifest>

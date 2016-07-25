@@ -163,6 +163,12 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         });
     }
 
+    @Override
+    public void onStop() {
+        mPresenter.stopLoading();
+        super.onStop();
+    }
+
     /**
      * 获取输入的信息
      */
