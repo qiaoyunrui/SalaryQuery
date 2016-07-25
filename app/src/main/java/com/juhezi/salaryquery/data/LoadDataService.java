@@ -21,8 +21,8 @@ public class LoadDataService extends Service {
 
     @Override
     public void onCreate() {
-        Log.i(TAG, Thread.currentThread().getName());
         super.onCreate();
+        Log.i(TAG, "Service start");
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import com.juhezi.juprogressbar.View.JuProgressbar;
 import com.juhezi.salaryquery.Config;
 import com.juhezi.salaryquery.R;
+import com.juhezi.salaryquery.data.LoadDataService;
 import com.juhezi.salaryquery.data.SalaryDetail;
 import com.juhezi.salaryquery.login.LoginActivity;
 
@@ -57,7 +58,7 @@ public class QueryFragment extends Fragment implements QueryContract.View {
         initEvent();
         setAnimForFab();
         return rootView;
-}
+    }
 
     private void initDialog() {
         mBuilder = new AlertDialog.Builder(getContext());
@@ -74,6 +75,13 @@ public class QueryFragment extends Fragment implements QueryContract.View {
                 playFabAnim();
             }
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent intent = new Intent(getContext(), LoadDataService.class);
+        getContext().startService(intent);
     }
 
     @Override
